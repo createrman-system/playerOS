@@ -1,0 +1,52 @@
+{
+  "application": {
+    "name": "Music Player OS",
+    "version": "1.0.0",
+    "fullscreen": true,
+    "frameless": true
+  },
+  "display": {
+    "width": 320,
+    "height": 480,
+    "dpi": 155,
+    "orientation": "portrait"
+  },
+  "touch": {
+    "enabled": true,
+    "calibrationRequired": false,
+    "device": "/dev/input/touchscreen0",
+    "calibrationFile": "~/.config/MusicPlayerOS/touch_calibration.json"
+  },
+  "audio": {
+    "defaultVolume": 70,
+    "maxVolume": 100,
+    "device": "default",
+    "sampleRate": 44100
+  },
+  "musicPlayer": {
+    "musicDirectory": "~/Music",
+    "supportedFormats": [
+      "mp3",
+      "wav",
+      "flac",
+      "aac",
+      "ogg",
+      "m4a"
+    ],
+    "autoPlayNext": true,
+    "shuffleMode": false
+  },
+  "system": {
+    "hostname": "musicplayer-pi",
+    "logLevel": "info",
+    "logFile": "~/.config/MusicPlayerOS/musicplayeros.log",
+    "updateCheckOnStartup": false
+  },
+  "theme": {
+    "primaryColor": "#1a237e",
+    "accentColor": "#00bcd4",
+    "backgroundColor": "#0a0e27",
+    "textColor": "#ffffff",
+    "borderRadius": 10
+  }
+}

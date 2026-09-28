@@ -1,0 +1,35 @@
+[Unit]
+Description=Music Player OS - Mini OS for Raspberry Pi 3
+Documentation=https://github.com/your-username/MusicPlayerOS
+After=network.target display-manager.service
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+Environment="QT_QPA_PLATFORM=linuxfb"
+Environment="QT_QPA_GENERIC_PLUGINS=tslib:/dev/input/touchscreen0"
+Environment="QT_QPA_FB_DRM=1"
+Environment="DISPLAY=:0"
+
+# Redirect stdout and stderr to journal
+StandardOutput=journal
+StandardError=journal
+
+# Start the application
+ExecStart=/usr/local/bin/MusicPlayerOS
+
+# Restart on failure
+Restart=on-failure
+RestartSec=5
+
+# Allow 10 seconds for startup
+TimeoutStartSec=10
+
+# Run as user, not root
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
