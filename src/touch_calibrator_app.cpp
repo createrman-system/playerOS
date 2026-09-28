@@ -322,24 +322,30 @@ void TouchCalibratorApp::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-void TouchCalibratorApp::touchEvent(QTouchEvent* event) {
-    if (!isCalibrating) {
-        return;
-    }
-    
-    // Handle touch events (for actual touch input)
-    const auto& touchPoints = event->touchPoints();
-    if (!touchPoints.isEmpty()) {
-        QPointF touchPos = touchPoints.at(0).pos();
-        mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, touchPos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
-    }
-}
-
 void TouchCalibratorApp::onBack() {
     if (isCalibrating) {
         onCancelCalibration();
     }
     emit requestHome();
+}
+
+bool TouchCalibratorApp::event(QEvent* event) {
+    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
+        if (!isCalibrating) {
+            return QWidget::event(event);
+        }
+        
+        // Handle touch events
+        QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
+        const auto& touchPoints = touchEvent->touchPoints();
+        if (!touchPoints.isEmpty()) {
+            QPointF touchPos = touchPoints.at(0).pos();
+            QMouseEvent mouseEvent(QEvent::MouseButtonPress, touchPos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+            mousePressEvent(&mouseEvent);
+        }
+        return true;
+    }
+    return QWidget::event(event);
 }
 
 void TouchCalibratorApp::onAppActivated() {

@@ -119,8 +119,8 @@ void HomeScreen::createAppButtons() {
     }
     
     // Add stretch to fill remaining space
-    appsGrid->addStretch(0, 2);
-    appsGrid->addStretch(3, 0);
+    appsGrid->setColumnStretch(2, 1);
+    appsGrid->setRowStretch(3, 1);
 }
 
 void HomeScreen::updateTimeDisplay() {

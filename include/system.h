@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QDateTime>
-#include <QSystemInfo>
 
 class System {
 public:

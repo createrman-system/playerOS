@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QDebug>
 #include <QListWidgetItem>
+#include <QTimer>
 
 MusicPlayerApp::MusicPlayerApp(QWidget* parent)
     : AppBase(parent),
@@ -59,12 +60,6 @@ MusicPlayerApp::MusicPlayerApp(QWidget* parent)
     setupUI();
     connectSignals();
     loadMusicDirectory();
-}
-
-MusicPlayerApp::~MusicPlayerApp() {
-    if (mediaPlayer) {
-        mediaPlayer->stop();
-    }
 }
 
 void MusicPlayerApp::setupUI() {

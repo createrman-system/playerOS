@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QPoint>
 #include <QVector>
+#include <QEvent>
 
 struct TouchPoint {
     QPoint screenPos;
@@ -49,7 +50,7 @@ private:
 protected:
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
-    void touchEvent(QTouchEvent* event) override;
+    bool event(QEvent* event) override;
 
 private slots:
     void onStartCalibration();

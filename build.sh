@@ -17,24 +17,35 @@ NC='\033[0m' # No Color
 
 # Check if running on Raspberry Pi
 if ! grep -q "Raspberry Pi" /proc/device-tree/model 2>/dev/null; then
-    echo -e "${YELLOW}Warning: Not running on a Raspberry Pi. Build may not work correctly.${NC}"
+    echo -e "${YELLOW}Info: Not running on Raspberry Pi (development machine detected)${NC}"
 fi
 
 # Install required dependencies
 echo -e "${GREEN}Installing dependencies...${NC}"
 sudo apt-get update
+
+# Try to install Qt5 packages - handle different package names across distros
+echo -e "${GREEN}Installing Qt5 and build tools...${NC}"
 sudo apt-get install -y \
     qt5-qmake \
-    qt5-default \
     libqt5gui5 \
     libqt5core5a \
     libqt5multimedia5 \
-    libqt5multimediagsttools5 \
     build-essential \
     cmake \
-    git \
+    git || true
+
+# Install additional packages if available
+sudo apt-get install -y \
+    libqt5multimediagsttools5 \
     libts-dev \
-    tslib
+    tslib || true
+
+# Check if Qt5 is installed
+if ! which qmake-qt5 >/dev/null 2>&1 && ! which qmake >/dev/null 2>&1; then
+    echo -e "${YELLOW}Warning: qmake not found. Installing qt5-devel packages...${NC}"
+    sudo apt-get install -y qtbase5-dev qtmultimedia5-dev || true
+fi
 
 # Create build directory
 echo -e "${GREEN}Creating build directory...${NC}"

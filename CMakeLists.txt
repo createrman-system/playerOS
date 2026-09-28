@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.16)
 project(MusicPlayerOS)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Find Qt5 - handle both qmake-qt5 and qmake
 find_package(Qt5 COMPONENTS 
     Core 
     Gui 
@@ -26,6 +28,7 @@ set(SOURCES
     src/file_explorer_app.cpp
     src/sysinfo_app.cpp
     src/system.cpp
+    src/keyboard_ui.cpp
 )
 
 set(HEADERS
@@ -52,12 +55,17 @@ target_link_libraries(MusicPlayerOS
 # Install the executable to /usr/local/bin
 install(TARGETS MusicPlayerOS DESTINATION /usr/local/bin)
 
-# Install systemd service file
-install(FILES MusicPlayerOS.service DESTINATION /etc/systemd/system)
+# Install systemd service file (if on Linux)
+if(UNIX AND NOT APPLE)
+    install(FILES MusicPlayerOS.service DESTINATION /etc/systemd/system)
+endif()
 
 # Print build info
 message(STATUS "Music Player OS Build Configuration:")
 message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  CXX Compiler: ${CMAKE_CXX_COMPILER}")
+message(STATUS "  CXX Flags: ${CMAKE_CXX_FLAGS}")
 message(STATUS "  Qt5 Version: ${Qt5_VERSION}")
+message(STATUS "  Source files: ${CMAKE_CURRENT_SOURCE_DIR}")
+
 
